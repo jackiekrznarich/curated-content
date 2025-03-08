@@ -1,10 +1,3 @@
-//
-//  curated_contentUITests.swift
-//  curated_contentUITests
-//
-//  Created by Jackie Krznarich on 2/17/25.
-//
-
 import XCTest
 
 final class curated_contentUITests: XCTestCase {
