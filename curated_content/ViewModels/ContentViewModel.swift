@@ -9,8 +9,12 @@ class ContentViewModel: ObservableObject {
     private let contentGenerator: ContentGenerator
     
     init() {
-        // Initialize with your API key
-        self.contentGenerator = ContentGenerator(apiKey: "your-api-key-here")
+        if let apiKey = Environment.variable("content") {
+            self.contentGenerator = ContentGenerator(apiKey: apiKey)
+        } else {
+            // Handle the missing environment variable case
+            fatalError("Missing required environment variable: content")
+        }
         
         // Load initial content
         loadInitialPosts()
@@ -34,7 +38,6 @@ class ContentViewModel: ObservableObject {
     }
     
     private func getTopicsBasedOnInteractions() -> [String] {
-            // This would be more sophisticated in a real app
             return Array(userInterests).prefix(3).map { $0 }
         }
         
@@ -54,9 +57,6 @@ class ContentViewModel: ObservableObject {
             
             // Then asynchronously generate real content
             let expandedPrompt = "Explain more about: \(post.content)"
-            
-            // This would call a different API method specifically for generating details
-            // You would then update the placeholders with real content
             
             return placeholderPosts
         }
