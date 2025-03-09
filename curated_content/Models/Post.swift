@@ -25,6 +25,7 @@ enum ContentSource {
     case twitter(username: String)
     case wikipedia
     case userContributed
+    case testing
 }
 
 struct Link {

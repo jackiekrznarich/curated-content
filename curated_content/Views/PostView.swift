@@ -95,6 +95,8 @@ struct PostView: View {
         subposts: [],
         topic: "Sample",
         tags: ["preview"],
-        depth: 0
+        depth: 0,
+        source: .testing,
+        relatedTopics: []
     )), viewModel: ContentViewModel())
 }
