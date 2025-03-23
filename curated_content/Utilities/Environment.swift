@@ -19,7 +19,7 @@ struct Environment {
             return nil
         } catch {
             print("Error loading .env file: \(error)")
-            return nil
+            return "no key available"
         }
 
     }

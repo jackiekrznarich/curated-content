@@ -33,17 +33,28 @@ struct PostView: View {
        return max(1.0 - (Double(distance) * 0.25), 0.4)
    }
     // Calculate blur amount based on distance from current focused level
-        func blurForPost(currentFocusDepth: Int, postDepth: Int) -> Double {
-            let distance = abs(currentFocusDepth - postDepth)
-            
-            // No blur for current focus depth
-            if distance == 0 {
-                return 0.0
-            }
-            
-            // Increase blur with distance
-            return min(Double(distance) * 0.5, 10.0)
+    func blurForPost(currentFocusDepth: Int, postDepth: Int) -> Double {
+        let distance = abs(currentFocusDepth - postDepth)
+        
+        // No blur for current focus depth
+        if distance == 0 {
+            return 0.0
         }
+        
+        // Increase blur with distance
+        return min(Double(distance) * 0.5, 10.0)
+    }
+    func resetDescendantExpansionState(for post: Post) {
+        // Mark all subposts as not expanded
+        for i in 0..<post.subposts.count {
+            self.post.subposts[i].isExpanded = false
+            
+            // Recursively reset deeper levels
+            if !post.subposts[i].subposts.isEmpty {
+                resetDescendantExpansionState(for: post.subposts[i])
+            }
+        }
+    }
     
     var body: some View {
         VStack(spacing: 1) {
@@ -62,6 +73,8 @@ struct PostView: View {
                         viewModel.updateFocusDepth(post.depth + 1)  // Focus on the level of subposts
                     } else {
                         viewModel.updateFocusDepth(post.depth)  // Focus back on this post's level
+                        // Reset expansion state only for this post's descendants
+                        resetDescendantExpansionState(for: post)
                     }
                 }
             }) {

@@ -9,7 +9,9 @@ class PostGenerator {
             subposts: [],
             topic: topic,
             tags: generateTags(for: topic),
-            depth: depth
+            depth: depth,
+            source: .testing,
+            relatedTopics: []
         )
     }
     
