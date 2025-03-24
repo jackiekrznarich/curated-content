@@ -4,8 +4,9 @@ class ContentViewModel: ObservableObject {
     @Published var posts: [Post] = []
     @Published var userInterests: Set<String> = []
     @Published var currentFocusDepth: Int = 0
+    @State private var postsPerPage: Int = 20
     
-    init() {
+    init(postsPerPage: Int) {
         posts = [
             Post(content: "Welcome to Infinite Posts! Tap to learn more.",
                  subposts: [],
@@ -29,6 +30,7 @@ class ContentViewModel: ObservableObject {
                  source: .testing,
                  relatedTopics: [])
         ]
+        loadMoreContent(max(postsPerPage - posts.count, 0))
     }
     
     func loadInitialPosts() {
@@ -68,9 +70,9 @@ class ContentViewModel: ObservableObject {
             currentFocusDepth = depth
         }
     }
-    func loadMoreContent() {
+    func loadMoreContent(_ postsPerPage: Int) {
         // Generate a few more posts when the user scrolls to the bottom
-        let newPosts = (0..<3).map { _ in
+        let newPosts = (0..<postsPerPage).map { _ in
             let randomTopics = ["Technology", "Science", "Art", "History", "Nature"]
             let randomTopic = randomTopics.randomElement() ?? "General"
             return PostGenerator.generatePost(topic: randomTopic)

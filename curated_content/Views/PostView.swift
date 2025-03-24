@@ -111,5 +111,5 @@ struct PostView: View {
         depth: 0,
         source: .testing,
         relatedTopics: []
-    )), viewModel: ContentViewModel())
+    )), viewModel: ContentViewModel(postsPerPage: 1))
 }
